@@ -185,3 +185,91 @@ function confirmCharacter() {
     });
 }
 
+// 선택지1 선택 시 호출되는 함수
+function chooseOption(option) {
+    let resultContent = '';
+
+    if (option === 1) {
+        resultContent = '선택지 1을 선택하셨습니다.';
+    } else if (option === 2) {
+        resultContent = '선택지 2를 선택하셨습니다.';
+    }
+
+    // 결과를 result-box에 표시
+    document.getElementById('result-content').textContent = resultContent;
+    document.getElementById('result-box').style.display = 'block';
+
+    // "다음으로" 버튼을 보이게 함
+    document.getElementById('next-button-container').style.display = 'block';
+
+    // 선택지와 주사위 버튼 숨기기
+    document.getElementById('choices-container').style.display = 'none';
+    const sendButton = document.getElementById('send-button');
+    sendButton.disabled = true; // 전송 버튼 비활성화
+}
+
+// 주사위 사용 시 호출되는 함수
+function useDice() {
+    let diceRoll = Math.floor(Math.random() * 6) + 1;
+    let resultContent = `주사위 결과: ${diceRoll}`;
+
+    // 결과를 result-box에 표시
+    document.getElementById('result-content').textContent = resultContent;
+    document.getElementById('result-box').style.display = 'block';
+
+    // "다음으로" 버튼을 보이게 함
+    document.getElementById('next-button-container').style.display = 'block';
+
+    // 선택지와 주사위 버튼 숨기기
+    document.getElementById('choices-container').style.display = 'none';
+
+    const sendButton = document.getElementById('send-button');
+    sendButton.disabled = true; // 전송 버튼 비활성화
+}
+
+// branch 값에 따라 페이지를 변경하는 함수
+function changeBranch() {
+    // 현재 URL에서 'branch' 파라미터 값을 가져옴
+    const url = new URL(window.location.href);
+    let branch = parseInt(url.searchParams.get('branch') || 0);  // 기본값 0 설정
+
+    // branch 값을 1 증가시킴
+    if (branch > 5){
+        window.location.href = '/game_ending';
+    }
+    else{
+        branch += 1;
+
+        // URL에 새로운 branch 값을 설정
+        url.searchParams.set('branch', branch);
+
+        // 새로운 URL로 리디렉션
+        window.location.href = url.toString();
+    }
+}
+
+function printf() {
+    const userInput = document.getElementById('user-input').value;
+
+    // fetch 요청 보내기
+    fetch('/printf', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_input: userInput })  // 서버로 보내는 데이터
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 서버 응답을 HTML에 출력
+        document.getElementById('output').textContent = `입력받은 값: ${data.input_received}`;
+        document.getElementById('output').style.display = 'block';
+        // 입력 필드 초기화
+        document.getElementById('user-input').value = '';
+        const sendButton = document.getElementById('send-button');
+        sendButton.disabled = true;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}

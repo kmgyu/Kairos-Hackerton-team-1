@@ -55,7 +55,7 @@ def get_recent_events():# 세션 테이블에서 데이터 가져오기
     return jsonify(play_records)
 
 
-"""
+
 @app.route('/api/completed-quests')
 def get_completed_quests():
     completed_quests = [
@@ -90,7 +90,7 @@ def get_current_quest():
         "progress": 45
     }
     return jsonify(current_quest)
-"""
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)

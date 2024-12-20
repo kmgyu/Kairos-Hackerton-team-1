@@ -6,3 +6,5 @@ flask_wtf
 flask_bcrypt
 pymysql
 python-dotenv
+
+openai

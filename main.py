@@ -2,13 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-import pymysql
 import dotenv
 import os
 from models import db, bcrypt
 from login import login_bp
 
-pymysql.install_as_MySQLdb()
 dotenv.load_dotenv()
 
 DATABASE_URI = os.environ.get('DATABASE_URI')
@@ -32,4 +30,5 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 if __name__ == '__main__':
+    models.db.create_all()  # 데이터베이스 테이블 생성 (필요시)
     app.run(host='0.0.0.0', port=3000)

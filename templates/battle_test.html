@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layouts/base.html" %}
+
+{% block main %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Battle Page</title>
-    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <header>
-        <div style="font-size: 1.5rem; font-weight: bold;">Battle Arena</div>
+        <div style="font-size: 1.5rem; font-weight: bold; text-align: center; padding: 10px;">Battle Arena</div>
     </header>
 
     <main>
@@ -28,7 +28,7 @@
         </div>
 
         <!-- 버튼 -->
-        <div class="choices" style="margin-top: 20px; text-align: center;">
+        <div style="margin-top: 20px; text-align: center;">
             <button onclick="performAction('attack')" style="padding: 10px 20px; margin-right: 10px;">공격</button>
             <button onclick="performAction('defend')" style="padding: 10px 20px; margin-right: 10px;">방어</button>
             <button onclick="performAction('avoid')" style="padding: 10px 20px; margin-right: 10px;">회피</button>
@@ -55,22 +55,22 @@
             })
             .then(response => response.json())
             .then(data => {
-                updateBattleState(data);
+                // 플레이어 및 몬스터의 상태 업데이트
+                document.getElementById("player-hp").innerText = data.player_hp;
+                document.getElementById("monster-hp").innerText = data.monster_hp;
+
+                // 로그 업데이트
+                const log = document.getElementById("battle-log");
+                const logEntry = document.createElement("li");
+                logEntry.textContent = data.log;
+                log.appendChild(logEntry);
+                log.scrollTop = log.scrollHeight;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
             });
-        }
-
-        function updateBattleState(data) {
-            // 플레이어 및 몬스터의 상태 업데이트
-            document.getElementById("player-hp").innerText = data.player_hp;
-            document.getElementById("monster-hp").innerText = data.monster_hp;
-
-            // 로그 업데이트
-            const log = document.getElementById("battle-log");
-            const logEntry = document.createElement("li");
-            logEntry.textContent = data.log;
-            log.appendChild(logEntry);
-            log.scrollTop = log.scrollHeight;
         }
     </script>
 </body>
-</html>
+{% endblock %}

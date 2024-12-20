@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -143,6 +143,24 @@ def confirm_character():
         }
     })
 
+
+@app.route('/printf', methods=['POST'])
+def printf():
+    # 요청에서 JSON 데이터 받기
+    data = request.get_json()
+    
+    # 데이터가 없으면 400 오류 반환
+    if not data or 'user_input' not in data:
+        return jsonify({'message': 'No user input provided'}), 400
+
+    user_input = data['user_input']
+    
+    # 받은 값을 콘솔에 출력
+    print(f'User input: {user_input}')
+    
+    # 응답 반환
+    return jsonify({'message': 'Success', 'input_received': user_input})
+
 @app.route('/ingame_ui', methods=['GET'])
 def ingame_ui():
     branch = int(request.args.get('branch', 0))  # branch 값이 없으면 기본값 0
@@ -168,7 +186,6 @@ def game_ending():
     play_log = ['Started the journey.', 'Defeated the dragon.', 'Found a hidden treasure.']  # 예시 로그
 
     return render_template('intergration/game_ending.html', character=character, play_summary=play_summary, ending_scripts=ending_scripts, play_log=play_log)
-
 
 @app.route('/')
 def index():

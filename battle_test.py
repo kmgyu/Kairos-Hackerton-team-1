@@ -18,11 +18,11 @@ def get_battle_state():
         "log": []
     }
 
-@app.route('/battle')
+@app.route('/battle_test')
 def battle():
     """전투 화면"""
     battle_state = get_battle_state()
-    return render_template('battle.html', player=battle_state, monster=battle_state)
+    return render_template('battle_test.html', player=battle_state, monster=battle_state)
 
 @app.route('/battle_action', methods=['POST'])
 def battle_action():
@@ -76,4 +76,4 @@ def battle_action():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=3000)
