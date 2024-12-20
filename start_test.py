@@ -117,50 +117,63 @@ def reset_stats():
 
 @app.route('/confirm_character', methods=['POST'])
 def confirm_character():
-    data = request.get_json()  # 클라이언트에서 보낸 데이터
+    data = request.get_json()  # 클라이언트에서 보낸 JSON 데이터 파싱
     name = data.get('name')
     job = data.get('job')
-    stats = data.get('stats')  # 예: {'Strength': 5, 'Dexterity': 3, 'Defense': 2}
+    strength = data.get('Strength')
+    dexterity = data.get('Dexterity')
+    defense = data.get('Defense')
 
-    # 캐릭터 정보 저장
+    # 데이터 처리 (예: 캐릭터 정보 저장)
     current_character.name = name
     current_character.job = job
-    current_character.stats.Strength = stats.get('Strength', 0)
-    current_character.stats.Dexterity = stats.get('Dexterity', 0)
-    current_character.stats.Defense = stats.get('Defense', 0)
+    current_character.stats.Strength = strength
+    current_character.stats.Dexterity = dexterity
+    current_character.stats.Defense = defense
 
-    # URL 파라미터로 전달할 데이터 생성
-    return redirect(url_for('ingame_ui', 
-                            name=name, 
-                            job=job, 
-                            Strength=current_character.stats.Strength,
-                            Dexterity=current_character.stats.Dexterity,
-                            Defense=current_character.stats.Defense))
+    # 처리 후 결과를 JSON 형식으로 반환
+    return jsonify({
+        'status': 'Character confirmed',
+        'name': current_character.name,
+        'job': current_character.job,
+        'stats': {
+            'Strength': current_character.stats.Strength,
+            'Dexterity': current_character.stats.Dexterity,
+            'Defense': current_character.stats.Defense
+        }
+    })
 
-
-@app.route('/ingame_ui')
+@app.route('/ingame_ui', methods=['GET'])
 def ingame_ui():
-    # URL 파라미터에서 값 가져오기
-    current_character = Character(
-            name = request.args.get('name'),
-            job = request.args.get('job'),
-            stats=Stats(Strength = request.args.get('Strength', type=int),  Dexterity = request.args.get('Dexterity', type=int), Defense = request.args.get('Defense', type=int)),
-            items=Items(name="Sword", quantity=1)
-        )
-
-    # 게임 UI 페이지 렌더링
-    return render_template('intergration/ingame_ui.html', character=current_character)
-
-
-@app.route('/')
-def index():
     branch = int(request.args.get('branch', 0))  # branch 값이 없으면 기본값 0
     scripts = ['first',
                'second',
                'third',
                '4',
-               '5']
-    return render_template('intergration/gamestart.html', character=current_character, script=scripts[branch])
+               '5',
+               '6',
+               '7']
+    # current_character는 이미 서버에서 데이터를 처리하고 있어 따로 파라미터를 받지 않습니다.
+    return render_template('intergration/ingame_ui.html', character=current_character, script=scripts[branch])
+
+@app.route('/game_ending')
+def game_ending():
+    character = current_character  # 이미 생성된 캐릭터 객체
+    play_summary = {
+        'title': 'Your Adventure Title',
+        'description': 'A detailed description of your adventure.',
+        'progress': '50%'  # 예시로 50% 진행 중
+    }
+    ending_scripts = ['The final battle begins...', 'You have completed your quest.']  # 예시 스크립트
+    play_log = ['Started the journey.', 'Defeated the dragon.', 'Found a hidden treasure.']  # 예시 로그
+
+    return render_template('intergration/game_ending.html', character=character, play_summary=play_summary, ending_scripts=ending_scripts, play_log=play_log)
+
+
+@app.route('/')
+def index():
+    
+    return render_template('intergration/gamestart.html', character=current_character)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3001)

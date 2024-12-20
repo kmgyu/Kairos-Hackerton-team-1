@@ -1,21 +1,28 @@
 from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 import models
 import dotenv
 import os
-import pymysql
+# import pymysql
 
-pymysql.install_as_MySQLdb()
+# pymysql.install_as_MySQLdb()
 dotenv.load_dotenv()
 
 DATABASE_URI = os.environ.get('DATABASE_URI')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 
-models.db.init_app(app)
 # db = SQLAlchemy(app)
+# SQLite 데이터베이스 연결 설정
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+models.db.init_app(app)
 
+# 외래 키 제약 활성화
+@app.before_request
+def before_request():
+    models.db.session.execute(text('PRAGMA foreign_keys = ON'))
 
 @app.route('/')
 def index():

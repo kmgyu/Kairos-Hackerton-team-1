@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Page</title>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div style="font-size: 1.5rem; font-weight: bold;">Battle Arena</div>
+    </header>
+
+    <main>
+        <h1>Battle!</h1>
+
+        <!-- 플레이어 및 몬스터 상태 -->
+        <div style="display: flex; justify-content: space-around; margin: 20px 0;">
+            <div>
+                <h2>Player</h2>
+                <p>HP: <span id="player-hp">{{ player.player_hp }}</span></p>
+            </div>
+            <div>
+                <h2>Monster</h2>
+                <p>HP: <span id="monster-hp">{{ monster.monster_hp }}</span></p>
+            </div>
+        </div>
+
+        <!-- 버튼 -->
+        <div class="choices" style="margin-top: 20px; text-align: center;">
+            <button onclick="performAction('attack')" style="padding: 10px 20px; margin-right: 10px;">공격</button>
+            <button onclick="performAction('defend')" style="padding: 10px 20px; margin-right: 10px;">방어</button>
+            <button onclick="performAction('avoid')" style="padding: 10px 20px; margin-right: 10px;">회피</button>
+            <button onclick="performAction('dice')" style="padding: 10px 20px;">주사위사용</button>
+        </div>
+
+        <!-- 전투 로그 -->
+        <div style="border: 1px solid #ccc; padding: 10px; margin-top: 20px; max-height: 300px; overflow-y: auto;">
+            <h3>Battle Log</h3>
+            <ul id="battle-log">
+                <li>Battle starts! Player vs Monster</li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        function performAction(action) {
+            fetch(`/battle_action`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ action: action }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateBattleState(data);
+            });
+        }
+
+        function updateBattleState(data) {
+            // 플레이어 및 몬스터의 상태 업데이트
+            document.getElementById("player-hp").innerText = data.player_hp;
+            document.getElementById("monster-hp").innerText = data.monster_hp;
+
+            // 로그 업데이트
+            const log = document.getElementById("battle-log");
+            const logEntry = document.createElement("li");
+            logEntry.textContent = data.log;
+            log.appendChild(logEntry);
+            log.scrollTop = log.scrollHeight;
+        }
+    </script>
+</body>
+</html>

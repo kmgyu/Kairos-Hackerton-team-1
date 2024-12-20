@@ -1,20 +1,13 @@
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Flask Jinja Template</title>
-        <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Jinja Template</title>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
 
-    {% extends "layouts/base.html" %}
-    {% block headerbar %}
-    <div style="font-size: 1.5rem; font-weight: bold;">Logo</div>
-        <nav style="flex-grow: 1; text-align: center;">
-            <a href="/home" style="margin: 0 1rem; text-decoration: none;">Home</a>
-        </nav>
-    </div>
-    {% endblock %}
-    {% block sidebar_left %}
+{% extends "layouts/base.html" %}
+{% block sidebar_left %}
     <h2>Play Records</h2>
 
     <!-- Recent Events Section -->
@@ -42,8 +35,8 @@
         <h3>Current Quest</h3>
         <div id="current-quest"></div>
     </div>
-    {% endblock %}
-    {% block main %}
+{% endblock %}
+{% block main %}
     <h1>Ending</h1>
 
     <!-- Ending Scripts 출력 -->
@@ -76,22 +69,14 @@
     <div style="margin-top: 30px; text-align: center;">
         <a href="/" style="padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">새 게임 시작</a>
     </div>
-    {% endblock %}
+{% endblock %}
 
-    {% block sidebar_right %}
-        <h2>{{ character.name }}</h2>
-        <p>Job: {{ character.job }}</p>
-        <p>Strength: {{ character.stats.Strength }}</p>
-        <p>Dexterity: {{ character.stats.Dexterity }}</p>
-        <p>Defense: {{ character.stats.Defense }}</p>
+{% block sidebar_right %}
+    <h2>{{ character.name }}</h2>
+    <p>Job: {{ character.job }}</p>
+    <p>Strength: {{ character.stats.Strength }}</p>
+    <p>Dexterity: {{ character.stats.Dexterity }}</p>
+    <p>Defense: {{ character.stats.Defense }}</p>
 
 
-    {% endblock %}
-    {% block footerbar %}
-    <div style="padding: 1rem;text-align: center;">
-        <nav>
-            <a href="/terms" style="margin: 0 1rem; text-decoration: none;">Terms</a>
-            <a href="/privacy" style="margin: 0 1rem; text-decoration: none;">Privacy</a>
-        </nav>
-    </div>
-    {% endblock %}
+{% endblock %}

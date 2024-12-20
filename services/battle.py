@@ -33,7 +33,7 @@ class CombatMechanics:
 
         if not hit:
             action = "공격" if self.mechanic_type == "attack" else "방어"
-            return f"{action} 실패! 적중하지 않았습니다."
+            return action
 
         # 기본 값 계산: 스탯 + 주사위 값
         value = self.stat + self._calculate_dice()
@@ -89,6 +89,43 @@ class Avoidance:
         else:
             return f"회피 실패! {damage}의 데미지를 입었습니다.", damage
 
+class Monster:
+    def __init__(self, atk_stat, def_stat, agi_stat):
+        """
+        Monster 클래스 초기화
+        :param atk_stat: 몬스터 공격력
+        :param def_stat: 몬스터 방어력
+        :param agi_stat: 몬스터 민첩성
+        """
+        self.atk_stat = atk_stat
+        self.def_stat = def_stat
+        self.agi_stat = agi_stat
+        self.hp = def_stat * 5  # 체력은 방어력 * 5
+
+        # CombatMechanics 인스턴스 생성
+        self.attack_instance = CombatMechanics(atk_stat, max_value=5, mechanic_type="attack")
+        self.defense_instance = CombatMechanics(def_stat, max_value=5, mechanic_type="defense")
+
+    def attack(self):
+        """
+        몬스터 공격 수행
+        :return: 공격값
+        """
+        return self.attack_instance.perform()
+
+    def defend(self, damage):
+        """
+        몬스터 방어 수행
+        :param damage: 플레이어의 공격값
+        :return: 방어 후 남은 체력
+        """
+        defense_value = self.defense_instance.perform()
+        net_damage = max(damage - defense_value, 0)
+        self.hp -= net_damage
+        if self.hp < 0:
+            self.hp = 0
+        return net_damage
+
 class Player:
     def __init__(self, atk_stat, def_stat, agi_stat):
         if not (0 <= atk_stat <= 5 and 0 <= def_stat <= 5 and 0 <= agi_stat <= 5):
@@ -130,6 +167,20 @@ class Player:
             self.hp = 0
         print(result)
         return result
+
+    def take_damage(self, monster_attack):
+        """
+        몬스터 공격으로 피해를 입는 메서드
+        :param monster_attack: 몬스터의 공격값
+        :return: 최종 피해값
+        """
+        player_defense = self.defend()
+        net_damage = max(monster_attack - player_defense, 0)
+        self.hp -= net_damage
+        if self.hp < 0:
+            self.hp = 0
+        print(f"플레이어가 {net_damage}의 피해를 입었습니다. 남은 체력: {self.hp}")
+        return net_damage
 
     def Item_use(self, item_id, effect_value):
         if item_id not in self.items:

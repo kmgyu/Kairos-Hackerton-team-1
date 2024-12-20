@@ -56,20 +56,6 @@ async function loadRecentEvents() {
     populateSlider(data, 'recent-events');
 }
 
-async function loadCompletedQuests() {
-    const data = await fetchData('/api/completed-quests');
-    populateSlider(data, 'completed-quests');
-}
-
-async function loadCurrentQuest() {
-    const data = await fetchData('/api/current-quest');
-    const container = document.getElementById('current-quest');
-    container.innerHTML = `
-        <p><strong>${data.title}</strong></p>
-        <p>${data.description}</p>
-        <p><strong>Progress:</strong> ${data.progress}%</p>
-    `;
-}
 
 // Load data on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -82,15 +68,22 @@ function changeBranch() {
     // 현재 URL에서 'branch' 파라미터 값을 가져옴
     const url = new URL(window.location.href);
     let branch = parseInt(url.searchParams.get('branch') || 0);  // 기본값 0 설정
+    
 
-    // branch 값을 1 증가시킴
-    branch += 1;
+    if (branch > 4) {
+        window.location.href = '/game_ending'
+    }
+    else{
+        // branch 값을 1 증가시킴
+          branch += 1;
 
-    // URL에 새로운 branch 값을 설정
-    url.searchParams.set('branch', branch);
+         // URL에 새로운 branch 값을 설정
+        url.searchParams.set('branch', branch);
 
-    // 새로운 URL로 리디렉션
-    window.location.href = url.toString();
+        // 새로운 URL로 리디렉션
+        window.location.href = url.toString();
+    }
+   
 }
 
 // 스탯 업데이트 함수
@@ -140,10 +133,14 @@ function resetStats() {
     });
 }
 
-// 캐릭터 확정 함수
 function confirmCharacter() {
     const name = document.getElementById('name').value;
     const job = document.getElementById('job').value;
+
+    // 스탯 값을 가져오는 코드 (예시: HTML에 해당 값을 넣은 요소가 있다고 가정)
+    const strength = parseInt(document.getElementById('strength').textContent, 10);
+    const dexterity = parseInt(document.getElementById('dexterity').textContent, 10);
+    const defense = parseInt(document.getElementById('defense').textContent, 10);
 
     if (!name) {
         alert('Please enter a name for your character.');
@@ -160,16 +157,31 @@ function confirmCharacter() {
         return;
     }
 
+    // 데이터 전송
     fetch('/confirm_character', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: name, job: job }),
+        body: JSON.stringify({
+            name: name,
+            job: job,
+            Strength: strength,
+            Dexterity: dexterity,
+            Defense: defense
+        }),
+    })
+    .then(response => response.json())  // 서버에서 받은 응답을 JSON으로 처리
+    .then(data => {
+        if (data.status === 'Character confirmed') {
+            // 서버 응답에 따라 페이지 이동 없이 캐릭터 정보 처리
+            window.location.href = '/ingame_ui';  // 페이지 이동
+        } else {
+            alert('Failed to confirm character.');
+        }
     })
     .catch(error => {
-        print("error")
         console.error('Error:', error);
     });
-
 }
+

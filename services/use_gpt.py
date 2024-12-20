@@ -4,28 +4,28 @@ dotenv.load_dotenv()
 API_KEY=os.environ.get('API_KEY')
 
 
-class PlayerCh(db.Model):
-    __tablename__ = 'PlayerCh'
+class Player():
 
-    CharID = db.Column(db.String(156), primary_key=True, nullable=False)
-    Username = db.Column(db.String(150), db.ForeignKey('userlist.username'), nullable=False)
-    PCName = db.Column(db.String(10), nullable=False)
-    ATK = db.Column(db.Integer, default=0)
-    DEF = db.Column(db.Integer, default=0)
-    AGI = db.Column(db.Integer, default=0)
-    
-    INV1 = db.Column(db.String(5), db.ForeignKey('Item.ItemID'), nullable=True)
-    INV2 = db.Column(db.String(5), db.ForeignKey('Item.ItemID'), nullable=True)
-    INV3 = db.Column(db.String(5), db.ForeignKey('Item.ItemID'), nullable=True)
-    INV4 = db.Column(db.String(5), db.ForeignKey('Item.ItemID'), nullable=True)
-    INV5 = db.Column(db.String(5), db.ForeignKey('Item.ItemID'), nullable=True)
-    AM1 = db.Column(db.String(5), db.ForeignKey('Item.ItemID'), nullable=True)
-    AM2 = db.Column(db.String(5), db.ForeignKey('Item.ItemID'), nullable=True)
-    AM3 = db.Column(db.String(5), db.ForeignKey('Item.ItemID'), nullable=True)
+    def __init__(self):
+        self.CharID = 'bla'
+        self.Username = 'einhilde'
+        self.PCName = 'foxthroat1'
+        self.ATK = 4
+        self.DEF = 6
+        self.AGI = 10
+        self.INV1 = '램프'
+        self.INV2 = '낡은직검'
+        self.INV3 = '양초폭탄'
+        self.INV4 = '포도탄'
+        self.INV5 = '냄새나는두건'
+        self.AM1 = '양날단검'
+        self.AM2 = '로브'
+        self.AM3 = '가죽장화'
+    def __iter__(self):
+        for attr, value in self.__dict__.items():
+            yield attr, value
 
-user_data = {
-
-}
+user_data = dict(Player())
 
 def get_farming_recommendation(data):
     # 모델에 전달할 프롬프트 생성
