@@ -19,20 +19,24 @@
 
     <!-- 스탯 배분 UI -->
     <div>
-        <p>Strength: <span id="strength">{{ character.stats.Strength }}</span></p>
+        <p>Strength: <span id="strength">{{ character.strength }}</span></p>
         <button onclick="updateStat('Strength', 1)">+1</button>
         <button onclick="updateStat('Strength', -1)">-1</button>
     </div>
     <div>
-        <p>Dexterity: <span id="dexterity">{{ character.stats.Dexterity }}</span></p>
+        <p>Dexterity: <span id="dexterity">{{ character.dexterity }}</span></p>
         <button onclick="updateStat('Dexterity', 1)">+1</button>
         <button onclick="updateStat('Dexterity', -1)">-1</button>
     </div>
     <div>
-        <p>Defense: <span id="defense">{{ character.stats.Defense }}</span></p>
+        <p>Defense: <span id="defense">{{ character.defense }}</span></p>
         <button onclick="updateStat('Defense', 1)">+1</button>
         <button onclick="updateStat('Defense', -1)">-1</button>
     </div>
+
+    <!-- 아이템 정보 표시 -->
+    <h3>Items</h3>
+    <p>{{ character.items_name }} - Quantity: {{ character.items_quantity }}</p>
 
     <!-- 초기화 및 확정 버튼 -->
     <button onclick="resetStats()">Reset</button>
@@ -55,9 +59,13 @@
                 document.getElementById('dexterity').textContent = data.stats.Dexterity;
                 document.getElementById('defense').textContent = data.stats.Defense;
                 document.getElementById('points').textContent = data.points;
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
         }
 
+        // 스탯 초기화 함수
         // 스탯 초기화 함수
         function resetStats() {
             fetch('/reset_stats', {
@@ -74,11 +82,15 @@
                 document.getElementById('defense').textContent = data.stats.Defense;
                 document.getElementById('points').textContent = data.points;
 
-                // 이름과 직업 초기화 (필요 시 제거 가능)
+                // 이름과 직업 초기화
                 document.getElementById('name').value = data.name;
                 document.getElementById('job').value = data.job;
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
         }
+
 
         // 캐릭터 확정 함수
         function confirmCharacter() {
@@ -111,6 +123,9 @@
             .then(response => response.json())
             .then(data => {
                 window.location.href = '/ingame_right';
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
         }
     </script>

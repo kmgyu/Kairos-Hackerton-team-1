@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block sidebar_right %}
     <h2>Character Information</h2>
     
     <div>
@@ -11,7 +11,6 @@
         <p>Strength: {{ character.stats.Strength }}</p>
         <p>Dexterity: {{ character.stats.Dexterity }}</p>
         <p>Defense: {{ character.stats.Defense }}</p>
-        <p>Remaining Points: {{ character.points }}</p>
     </div>
 
     <hr>
@@ -29,4 +28,48 @@
         {% endif %}
     </div>
     
+    <h3><button class="accordion">Achievements, Titles & High Scores</button></h3>
+    <div class="panel">
+        <h4>Achievements</h4>
+        {% if character.achievements %}
+            <ul>
+                {% for achievement in character.achievements %}
+                    <li>{{ achievement.name }} - {{ achievement.date }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No achievements earned yet.</p>
+        {% endif %}
+
+        <h4>Titles</h4>
+        {% if character.titles %}
+            <ul>
+                {% for title in character.titles %}
+                    <li>{{ title }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No titles earned yet.</p>
+        {% endif %}
+
+        <h4>High Scores</h4>
+        <p>Highest Score: {{ character.high_score }}</p>
+    </div>
+
+    <script>
+        // 접힌 창 (Accordion) 기능
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    </script>
+
 {% endblock %}
