@@ -1,6 +1,14 @@
 from flask import Flask, render_template, request, jsonify
+import models
+import os
+import dotenv
 
+dotenv.load_dotenv()
 app = Flask(__name__)
+DATABASE_URI = os.environ.get('DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI  # MariaDB URI 설정
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+models.db.init_app(app)
 
 class Stats:
     def __init__(self, Strength=0, Dexterity=0, Defense=0):
@@ -164,15 +172,15 @@ def printf():
 @app.route('/ingame_ui', methods=['GET'])
 def ingame_ui():
     branch = int(request.args.get('branch', 0))  # branch 값이 없으면 기본값 0
-    scripts = ['first',
-               'second',
-               'third',
-               '4',
-               '5',
-               '6',
-               '7']
+    scripts = models.ScenarioNode.query.all()
+    script = []
+    if scripts:
+            for scene in scripts:
+                # script.append({"situation" : scene.Script, "result" : "", "choices" : ""})
+                script.append(scene.Script)
+
     # current_character는 이미 서버에서 데이터를 처리하고 있어 따로 파라미터를 받지 않습니다.
-    return render_template('intergration/ingame_ui.html', character=current_character, script=scripts[branch])
+    return render_template('intergration/ingame_ui.html', character=current_character, script=script[branch])
 
 @app.route('/game_ending')
 def game_ending():

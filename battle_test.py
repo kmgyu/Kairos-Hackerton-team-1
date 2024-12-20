@@ -26,53 +26,32 @@ def battle():
 
 @app.route('/battle_action', methods=['POST'])
 def battle_action():
-    """플레이어의 행동 처리"""
-    battle_state = get_battle_state()
-    action = request.json.get("action")
-    log_entry = ""
+    data = request.json
+    action = data.get('action')
 
-    if action == "attack":
-        # 플레이어 공격
-        player_attack = player.attack()
-        damage_dealt = monster.defend(player_attack)
-        log_entry = f"Player attacks for {player_attack}! Monster defends and takes {damage_dealt} damage."
+    player = Player(atk_stat=3, def_stat=3, agi_stat=3)
+    monster = Monster(atk_stat=2, def_stat=2, agi_stat=2)
 
-    elif action == "defend":
-        # 방어 동작 (몬스터의 공격을 방어)
-        monster_attack = monster.attack()
-        damage_taken = player.take_damage(monster_attack)
-        log_entry = f"Player defends! Monster attacks for {monster_attack}, Player takes {damage_taken} damage."
-
-    elif action == "avoid":
-        # 회피 시도
+    if action == 'attack':
+        player_damage = player.attack()
+        monster_damage = monster.defend(player_damage)
+        log = f"플레이어가 {player_damage}로 공격, 몬스터는 {monster_damage} 피해를 입었습니다."
+    elif action == 'defend':
+        player.defend()
+        log = "플레이어가 방어했습니다."
+    elif action == 'avoid':
         result = player.avoid()
-        log_entry = f"Player attempts to avoid: {result}"
-
-    elif action == "dice":
-        # 주사위 사용
+        log = f"플레이어가 회피 시도: {result}"
+    elif action == 'dice':
         dice_roll = player.dice()
-        log_entry = f"Player rolls a dice and gets {dice_roll}."
-
+        log = f"플레이어가 주사위를 굴려 {dice_roll}이 나왔습니다."
     else:
-        return jsonify({"error": "Invalid action"}), 400
-
-    # 상태 업데이트
-    battle_state["player_hp"] = player.hp
-    battle_state["monster_hp"] = monster.hp
-    battle_state["log"].append(log_entry)
-
-    # 전투 종료 확인
-    if battle_state["monster_hp"] <= 0:
-        log_entry = "Monster is defeated! Player wins!"
-        battle_state["log"].append(log_entry)
-    elif battle_state["player_hp"] <= 0:
-        log_entry = "Player is defeated! Game over!"
-        battle_state["log"].append(log_entry)
+        log = "알 수 없는 액션입니다."
 
     return jsonify({
-        "player_hp": battle_state["player_hp"],
-        "monster_hp": battle_state["monster_hp"],
-        "log": log_entry
+        'player_hp': player.hp,
+        'monster_hp': monster.hp,
+        'log': log
     })
 
 if __name__ == '__main__':

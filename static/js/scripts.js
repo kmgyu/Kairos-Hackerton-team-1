@@ -206,6 +206,8 @@ function chooseOption(option) {
     document.getElementById('choices-container').style.display = 'none';
     const sendButton = document.getElementById('send-button');
     sendButton.disabled = true; // 전송 버튼 비활성화
+
+    
 }
 
 // 주사위 사용 시 호출되는 함수
@@ -234,7 +236,7 @@ function changeBranch() {
     let branch = parseInt(url.searchParams.get('branch') || 0);  // 기본값 0 설정
 
     // branch 값을 1 증가시킴
-    if (branch > 5){
+    if (branch > 8){
         window.location.href = '/game_ending';
     }
     else{
@@ -262,7 +264,7 @@ function printf() {
     .then(response => response.json())
     .then(data => {
         // 서버 응답을 HTML에 출력
-        document.getElementById('output').textContent = `입력받은 값: ${data.input_received}`;
+        document.getElementById('output').textContent = `입력: ${data.input_received}`;
         document.getElementById('output').style.display = 'block';
         // 입력 필드 초기화
         document.getElementById('user-input').value = '';

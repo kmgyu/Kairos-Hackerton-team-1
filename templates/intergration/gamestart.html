@@ -40,9 +40,10 @@
 {% block main %}
 <div style="text-align: center; padding: 2rem;">
     <div style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">로고</div>
-    <h1>제목</h1>
+    <h1>{{ scenario.title }}</h1>  <!-- 시나리오 제목 표시 -->
+
     <p style="font-size: 1.2rem; margin-top: 1rem;">
-        배경 이야기가 여기에 들어갑니다. 이 애플리케이션에 대한 간략한 설명 또는 소개입니다.
+        {{ scenario.Descript }}  <!-- 시나리오의 배경 이야기 표시 -->
     </p>
     <div style="margin-top: 2rem;">
         <form style="display: inline-block; text-align: center;">
