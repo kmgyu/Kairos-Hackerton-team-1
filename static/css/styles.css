@@ -19,7 +19,8 @@ header {
     text-align: center;
 }
 
-.sidebar-left {
+.sidebar-left, .sidebar-right {
+    width: 150%;
     grid-area: sidebar-left;
     background-color: #f4f4f4;
     padding: 1rem;
@@ -30,13 +31,6 @@ main {
     grid-area: main;
     padding: 1rem;
     text-align: center;
-}
-
-.sidebar-right {
-    grid-area: sidebar-right;
-    background-color: #f4f4f4;
-    padding: 1rem;
-    border-left: 1px solid #ccc;
 }
 
 footer {
@@ -82,7 +76,7 @@ footer {
 }
 
 .slider-content li {
-    min-width: 200px;
+    min-width: 150px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;

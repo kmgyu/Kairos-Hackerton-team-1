@@ -1,1 +1,8 @@
 flask
+flask_session
+flask_sqlalchemy
+flask_login
+flask_wtf
+flask_bcrypt
+pymysql
+python-dotenv
