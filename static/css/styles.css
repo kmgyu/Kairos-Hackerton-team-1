@@ -19,12 +19,20 @@ header {
     text-align: center;
 }
 
-.sidebar-left, .sidebar-right {
+.sidebar-left{
     width: 150%;
     grid-area: sidebar-left;
     background-color: #f4f4f4;
     padding: 1rem;
     border-right: 1px solid #ccc;
+}
+
+.sidebar-right {
+    width: 150%;
+    grid-area: sidebar-right;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-left: 1px solid #ccc;
 }
 
 main {

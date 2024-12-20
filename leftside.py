@@ -5,11 +5,11 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     
-    return render_template('/index.html')
+    return render_template('index.html')
 
 @app.route('/left-test')
 def leftsidetest():
-    return render_template('/left-sidebar/record.html')
+    return render_template('left-sidebar/record.html')
 
 @app.route('/api/recent-events')
 def get_recent_events():

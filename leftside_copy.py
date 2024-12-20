@@ -2,34 +2,26 @@ from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
-class Stats:
-    def __init__(self, Strength=0, Dexterity=0, Defense=0):
-        self.Strength = Strength
-        self.Dexterity = Dexterity
-        self.Defense = Defense
+from flask import Flask, render_template
 
-
-class Items:
-    def __init__(self, name="", quantity=0):
-        self.name = name
-        self.quantity = quantity
+app = Flask(__name__)
 
 
 class Character:
-    def __init__(self, stats=Stats(), items=Items(), name="", job="", points=10):
+    def __init__(self, name, job):
         self.name = name
         self.job = job
-        self.stats = stats
-        self.points = points
-        self.items = items
-
 
 
 # 메인 페이지
 @app.route('/')
 def index():
-    character = Character(name="Hero", job="Warrior", stats=Stats(Strength=5, Dexterity=3, Defense=2), points=5, items=Items(name="Sword", quantity=1))
+    # Character 객체 생성
+    character = Character(name="Hero", job="Warrior")
+
+    # 템플릿 렌더링
     return render_template('/right-sidebar/start_right.html', character=character)
+
 
 # @app.route('/ingame_right')
 # def ingame_right():
