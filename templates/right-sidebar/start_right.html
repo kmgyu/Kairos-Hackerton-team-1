@@ -17,7 +17,6 @@
     <h3>Allocate Your Stats</h3>
     <p>Remaining Points: <span id="points">{{ character.points }}</span></p>
 
-    <!-- 스탯 배분 UI -->
     <div>
         <p>Strength: <span id="strength">{{ character.stats.Strength }}</span></p>
         <button onclick="updateStat('Strength', 1)">+1</button>
@@ -33,6 +32,7 @@
         <button onclick="updateStat('Defense', 1)">+1</button>
         <button onclick="updateStat('Defense', -1)">-1</button>
     </div>
+    
     
     <!-- 아이템 정보 표시 -->
     <h3>Items</h3>
@@ -64,6 +64,7 @@
                 console.error('Error:', error);
             });
         }
+
 
         // 스탯 초기화 함수
         function resetStats() {
@@ -118,13 +119,10 @@
                 },
                 body: JSON.stringify({ name: name, job: job }),
             })
-            .then(response => response.json())
-            .then(data => {
-                window.location.href = '/ingame_right';
-            })
             .catch(error => {
                 console.error('Error:', error);
             });
+
         }
     </script>
 {% endblock %}

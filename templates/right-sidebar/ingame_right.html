@@ -1,75 +1,11 @@
 {% extends "base.html" %}
 
 {% block sidebar_right %}
-    <h2>Character Information</h2>
-    
-    <div>
-        <h3>Character Name: {{ character.name }}</h3>
-        <p>Job: {{ character.job }}</p>
+    <h2>{{ character.name }}</h2>
+    <p>Job: {{ character.job }}</p>
+    <p>Strength: {{ character.stats.Strength }}</p>
+    <p>Dexterity: {{ character.stats.Dexterity }}</p>
+    <p>Defense: {{ character.stats.Defense }}</p>
 
-        <h4>Stats</h4>
-        <p>Strength: {{ character.stats.Strength }}</p>
-        <p>Dexterity: {{ character.stats.Dexterity }}</p>
-        <p>Defense: {{ character.stats.Defense }}</p>
-    </div>
-
-    <hr>
-
-    <h3>Inventory</h3>
-    <div id="inventory">
-        {% if character.items %}
-            <ul>
-                {% for item in character.items %}
-                    <li>{{ item.name }} (x{{ item.quantity }})</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No items in inventory.</p>
-        {% endif %}
-    </div>
-    
-    <h3><button class="accordion">Achievements, Titles & High Scores</button></h3>
-    <div class="panel">
-        <h4>Achievements</h4>
-        {% if character.achievements %}
-            <ul>
-                {% for achievement in character.achievements %}
-                    <li>{{ achievement.name }} - {{ achievement.date }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No achievements earned yet.</p>
-        {% endif %}
-
-        <h4>Titles</h4>
-        {% if character.titles %}
-            <ul>
-                {% for title in character.titles %}
-                    <li>{{ title }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No titles earned yet.</p>
-        {% endif %}
-
-        <h4>High Scores</h4>
-        <p>Highest Score: {{ character.high_score }}</p>
-    </div>
-
-    <script>
-        // 접힌 창 (Accordion) 기능
-        var acc = document.getElementsByClassName("accordion");
-        for (var i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                } else {
-                    panel.style.display = "block";
-                }
-            });
-        }
-    </script>
 
 {% endblock %}
