@@ -114,21 +114,17 @@ def update_stats():
     stat = data.get("stat")  # 수정할 스탯 이름 (e.g., "Strength")
     amount = data.get("amount")  # 변경 값 (e.g., +1, -1)
 
-    if stat in Character.stats.__dict__:  # `Character.stats` 객체에 접근
+    if stat in Character.stats:
         # 포인트 배분 로직
         if amount == 1 and Character.points > 0:  # 포인트를 추가
-            setattr(Character.stats, stat, getattr(Character.stats, stat) + 1)  # 동적으로 속성 값 변경
+            setattr(Character.stats, stat, getattr(Character.stats, stat) + 1)
             Character.points -= 1
         elif amount == -1 and getattr(Character.stats, stat) > 0:  # 포인트를 회수
             setattr(Character.stats, stat, getattr(Character.stats, stat) - 1)
             Character.points += 1
 
     return jsonify({
-        "stats": {
-            "Strength": Character.stats.Strength,
-            "Dexterity": Character.stats.Dexterity,
-            "Defense": Character.stats.Defense
-        },
+        "stats": Character.stats.__dict__,
         "points": Character.points
     })
 
