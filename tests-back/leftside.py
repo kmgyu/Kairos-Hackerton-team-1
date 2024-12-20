@@ -4,9 +4,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    playrecord = {
-        '2024-07-21':"이거이거함"
-    }
     
     return render_template('/index.html')
 
