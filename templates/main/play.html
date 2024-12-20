@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Script Lines</h1>
+<div>
+    {% for line in scripts.script %}
+        <div class="script-line">{{ line }}</div>
+    {% endfor %}
+</div>
+
+<!-- 선택지 버튼 추가 -->
+<div class="choices" style="margin-top: 20px;">
+    <button style="padding: 10px 20px; margin-right: 10px;">선택지1</button>
+    <button style="padding: 10px 20px; margin-right: 10px;">선택지2</button>
+    <button style="padding: 10px 20px;">주사위사용</button>
+</div>
+
+<!-- 채팅창 추가 -->
+<div class="chatbox" style="margin-top: 20px;">
+    <form action="#" method="post" style="display: flex; align-items: center;">
+        <input 
+            type="text" 
+            name="user_input" 
+            placeholder="직접 입력하기" 
+            style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;">
+        <button type="submit" style="padding: 10px 20px;">전송</button>
+    </form>
+</div>
+{% endblock %}

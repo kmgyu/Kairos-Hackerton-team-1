@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Character Information</h2>
+<p>Name: {{ character.name }}</p>
+<p>Job: {{ character.job }}</p>
+
+<h3>Stats</h3>
+<div id="character-stats">
+    <p>HP: <span id="hp">{{ character.stats.HP }}</span></p>
+    <p>Strength: <span id="strength">{{ character.stats.Strength }}</span></p>
+    <p>Dexterity: <span id="dexterity">{{ character.stats.Dexterity }}</span></p>
+    <p>Defense: <span id="defense">{{ character.stats.Defense }}</span></p>
+</div>
+
+<h3>Actions</h3>
+<button id="take-damage-btn" data-damage="10">Take 10 Damage</button>
+<button id="boost-defense-btn" data-boost="5">Boost Defense by 5</button>
+
+<script>
+    function updateStats(data) {
+        // 서버에서 받은 데이터로 UI 갱신
+        document.getElementById('hp').textContent = data.stats.HP;
+        document.getElementById('strength').textContent = data.stats.Strength;
+        document.getElementById('dexterity').textContent = data.stats.Dexterity;
+        document.getElementById('defense').textContent = data.stats.Defense;
+    }
+
+    // 공격받는 버튼 클릭 이벤트
+    document.getElementById('take-damage-btn').addEventListener('click', function () {
+        const damage = this.getAttribute('data-damage');
+        fetch('/update_stats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ HP: -parseInt(damage) })  // HP 감소
+        })
+        .then(response => response.json())
+        .then(data => updateStats(data));
+    });
+
+    // 방어 증가 버튼 클릭 이벤트
+    document.getElementById('boost-defense-btn').addEventListener('click', function () {
+        const boost = this.getAttribute('data-boost');
+        fetch('/update_stats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ Defense: parseInt(boost) })  // Defense 증가
+        })
+        .then(response => response.json())
+        .then(data => updateStats(data));
+    });
+</script>
+{% endblock %}

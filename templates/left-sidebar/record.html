@@ -1,0 +1,40 @@
+{% extends "layouts/base.html" %}
+
+{% block sidebar_left %}
+<h2>Play Records</h2>
+
+<!-- Recent Events Section -->
+<div>
+    <h3>Recent Events</h3>
+    <div class="slider" id="recent-events">
+        <button class="slider-btn" onclick="moveSlide('recent-events', -1)">&lt;</button>
+        <ul class="slider-content"></ul>
+        <button class="slider-btn" onclick="moveSlide('recent-events', 1)">&gt;</button>
+    </div>
+</div>
+
+<!-- Completed Quests Section -->
+<div>
+    <h3>Completed Quests</h3>
+    <div class="slider" id="completed-quests">
+        <button class="slider-btn" onclick="moveSlide('completed-quests', -1)">&lt;</button>
+        <ul class="slider-content"></ul>
+        <button class="slider-btn" onclick="moveSlide('completed-quests', 1)">&gt;</button>
+    </div>
+</div>
+
+<!-- Current Quest Section -->
+<div>
+    <h3>Current Quest</h3>
+    <div id="current-quest"></div>
+</div>
+{% endblock %}
+
+
+{% block main %}
+<p>blah</p>
+{% endblock %}
+
+{% block sidebar_right %}
+<p>blah</p>
+{% endblock %}
