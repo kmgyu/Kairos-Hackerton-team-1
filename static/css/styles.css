@@ -20,7 +20,7 @@ header {
 }
 
 .sidebar-left{
-    width: 150%;
+    max-width: 100%;
     grid-area: sidebar-left;
     background-color: #f4f4f4;
     padding: 1rem;
@@ -28,7 +28,7 @@ header {
 }
 
 .sidebar-right {
-    width: 150%;
+    max-width: 100%;
     grid-area: sidebar-right;
     background-color: #f4f4f4;
     padding: 1rem;
