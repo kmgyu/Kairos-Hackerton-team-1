@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <header>
+    <header class = "headerbar">
         <h1>Header</h1>
+        {% block headerbar %}{% endblock %}
     </header>
     <div class="sidebar-left">
         {% block sidebar_left %}{% endblock %}
@@ -20,8 +21,8 @@
     <div class="sidebar-right">
         {% block sidebar_right %}{% endblock %}
     </div>
-    <footer>
-        <p>Footer content here.</p>
+    <footer class = "footerbar">
+        {% block footerbar %}{% endblock %}
     </footer>
 </body>
 </html>

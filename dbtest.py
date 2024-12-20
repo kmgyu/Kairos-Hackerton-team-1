@@ -1,9 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint
+import dotenv
+import os
+
+dotenv.load_dotenv()
+
+DATABASE_URI = os.environ.get('DATABASE_URI')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+mariadbconnector://root:ScE1234**@orion.mokpo.ac.kr:8371/kairos'  # MariaDB URI 설정
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI  # MariaDB URI 설정
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -29,8 +35,11 @@ class Quest(db.Model):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # 데이터베이스 테이블 생성 (필요시)
-        
+
         # DB에서 데이터 조회하여 출력
         quests = Quest.query.all()
-        for quest in quests:
-            print(f'QuestID: {quest.QuestID}, Ntype: {quest.Ntype}, ATK: {quest.ATK}, DEF: {quest.DEF}, AGI: {quest.AGI}')
+        if quests:
+            for quest in quests:
+                print(f'QuestID: {quest.QuestID}, Ntype: {quest.Ntype}, ATK: {quest.ATK}, DEF: {quest.DEF}, AGI: {quest.AGI}')
+        else:
+            print("No quests found in the database.")

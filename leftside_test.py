@@ -1,10 +1,24 @@
 from flask import Flask, jsonify, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+import models
+import dotenv
+import os
+import pymysql
+
+pymysql.install_as_MySQLdb()
+dotenv.load_dotenv()
+
+DATABASE_URI = os.environ.get('DATABASE_URI')
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+
+models.db.init_app(app)
+# db = SQLAlchemy(app)
+
 
 @app.route('/')
 def index():
-    
     return render_template('index.html')
 
 @app.route('/left-test')
@@ -12,36 +26,29 @@ def leftsidetest():
     return render_template('left-sidebar/record.html')
 
 @app.route('/api/recent-events')
-def get_recent_events():
+def get_recent_events():# 세션 테이블에서 데이터 가져오기
+    # print(models.db.engine)  # 테이블 목록 출력
+
+    sessions = models.Sessions.query.all()
+
+
+    # if not sessions:
+    #     print("No sessions found in the database.")
+
+    # play_records 형식으로 변환
     play_records = [
         {
-            "situation": "You encountered a fork in the road.",
-            "choices": "Left path (forest), Right path (mountain)",
-            "result": "Chose the forest path, encountered a group of bandits."
-        },
-        {
-            "situation": "You met an old merchant.",
-            "choices": "Buy supplies, Ignore",
-            "result": "Bought supplies and received a treasure map."
-        },
-        {
-            "situation": "You met an old merchant.",
-            "choices": "Buy supplies, Ignore",
-            "result": "Bought supplies and received a treasure map."
-        },
-        {
-            "situation": "You met an old merchant.",
-            "choices": "Buy supplies, Ignore",
-            "result": "Bought supplies and received a treasure map."
-        },
-        {
-            "situation": "You met an old merchant.",
-            "choices": "Buy supplies, Ignore",
-            "result": "Bought supplies and received a treasure map."
+            "situation": session.Situation,
+            "choices": session.Choices,
+            "result": session.Result
         }
+        for session in sessions
     ]
+    
     return jsonify(play_records)
 
+
+"""
 @app.route('/api/completed-quests')
 def get_completed_quests():
     completed_quests = [
@@ -76,6 +83,7 @@ def get_current_quest():
         "progress": 45
     }
     return jsonify(current_quest)
+"""
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)

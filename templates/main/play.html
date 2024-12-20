@@ -2,17 +2,14 @@
 
 {% block main %}
 <h1>Script Lines</h1>
-<div>
-    {% for line in scripts.script %}
-        <div class="script-line">{{ line }}</div>
-    {% endfor %}
-</div>
 
-<!-- 선택지 버튼 추가 -->
+<!-- branch 값에 따라 내용이 달라짐 -->
+{{ script }}
+
 <div class="choices" style="margin-top: 20px;">
-    <button id="choice1" style="padding: 10px 20px; margin-right: 10px;">선택지1</button>
-    <button id="choice2" style="padding: 10px 20px; margin-right: 10px;">선택지2</button>
-    <button id="dice" style="padding: 10px 20px;">주사위사용</button>
+    <button onclick="changeBranch()" style="padding: 10px 20px; margin-right: 10px;">선택지1</button>
+    <button onclick="changeBranch()" style="padding: 10px 20px; margin-right: 10px;">선택지2</button>
+    <button onclick="changeBranch()" style="padding: 10px 20px;">주사위사용</button>
 </div>
 
 <!-- 채팅창 추가 -->
@@ -28,35 +25,20 @@
 </div>
 
 <script>
-    // 현재 URL에서 branch 파라미터를 추출하거나 0으로 설정
-    function getBranchValue() {
-        const urlParams = new URLSearchParams(window.location.search);
-        let branchValue = parseInt(urlParams.get('branch')) || 0;  // branch 파라미터가 없으면 0으로 설정
-        return branchValue;
+    function changeBranch() {
+        // 현재 URL에서 'branch' 파라미터 값을 가져옴
+        const url = new URL(window.location.href);
+        let branch = parseInt(url.searchParams.get('branch') || 0);  // 기본값 0 설정
+
+        // branch 값을 1 증가시킴
+        branch += 1;
+
+        // URL에 새로운 branch 값을 설정
+        url.searchParams.set('branch', branch);
+
+        // 새로운 URL로 리디렉션
+        window.location.href = url.toString();
     }
-
-    // URL에 branch 파라미터 값 업데이트
-    function updateBranch(newBranchValue) {
-        const newUrl = window.location.pathname + '?branch=' + newBranchValue;
-        window.location.href = newUrl;  // 페이지를 새로운 URL로 이동
-    }
-
-    // 버튼 클릭 시 branch 값을 증가시켜서 URL로 이동
-    document.getElementById('choice1').addEventListener('click', function() {
-        let branchValue = getBranchValue();
-        branchValue++;  // branch 값 1 증가
-        updateBranch(branchValue);
-    });
-
-    document.getElementById('choice2').addEventListener('click', function() {
-        let branchValue = getBranchValue();
-        branchValue++;  // branch 값 1 증가
-        updateBranch(branchValue);
-    });
-
-    // 주사위 사용 버튼 클릭 시 branch 값 증가
-    document.getElementById('dice').addEventListener('click', function() {
-    });
 </script>
 
 {% endblock %}

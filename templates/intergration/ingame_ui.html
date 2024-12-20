@@ -1,0 +1,102 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Jinja Template</title>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+{% extends "layouts/base.html" %}
+{% block headerbar %}
+<div style="font-size: 1.5rem; font-weight: bold;">Logo</div>
+<nav style="flex-grow: 1; text-align: center;">
+    <a href="/home" style="margin: 0 1rem; text-decoration: none;">Home</a>
+</nav>
+</div>
+{% endblock %}
+{% block sidebar_left %}
+<h2>Play Records</h2>
+
+<!-- Recent Events Section -->
+<div>
+    <h3>Recent Events</h3>
+    <div class="slider" id="recent-events">
+        <button class="slider-btn" onclick="moveSlide('recent-events', -1)">&lt;</button>
+        <ul class="slider-content"></ul>
+        <button class="slider-btn" onclick="moveSlide('recent-events', 1)">&gt;</button>
+    </div>
+</div>
+
+<!-- Completed Quests Section -->
+<div>
+    <h3>Completed Quests</h3>
+    <div class="slider" id="completed-quests">
+        <button class="slider-btn" onclick="moveSlide('completed-quests', -1)">&lt;</button>
+        <ul class="slider-content"></ul>
+        <button class="slider-btn" onclick="moveSlide('completed-quests', 1)">&gt;</button>
+    </div>
+</div>
+
+<!-- Current Quest Section -->
+<div>
+    <h3>Current Quest</h3>
+    <div id="current-quest"></div>
+</div>
+{% endblock %}
+{% block main %}
+<h1>Script Lines</h1>
+
+<!-- branch 값에 따라 내용이 달라짐 -->
+{{ script }}
+
+<div class="choices" style="margin-top: 20px;">
+    <button onclick="changeBranch()" style="padding: 10px 20px; margin-right: 10px;">선택지1</button>
+    <button onclick="changeBranch()" style="padding: 10px 20px; margin-right: 10px;">선택지2</button>
+    <button onclick="changeBranch()" style="padding: 10px 20px;">주사위사용</button>
+</div>
+
+<!-- 채팅창 추가 -->
+<div class="chatbox" style="margin-top: 20px;">
+    <form action="#" method="post" style="display: flex; align-items: center;">
+        <input 
+            type="text" 
+            name="user_input" 
+            placeholder="직접 입력하기" 
+            style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;">
+        <button type="submit" style="padding: 10px 20px;">전송</button>
+    </form>
+</div>
+
+<script>
+    function changeBranch() {
+        // 현재 URL에서 'branch' 파라미터 값을 가져옴
+        const url = new URL(window.location.href);
+        let branch = parseInt(url.searchParams.get('branch') || 0);  // 기본값 0 설정
+
+        // branch 값을 1 증가시킴
+        branch += 1;
+
+        // URL에 새로운 branch 값을 설정
+        url.searchParams.set('branch', branch);
+
+        // 새로운 URL로 리디렉션
+        window.location.href = url.toString();
+    }
+</script>
+
+{% endblock %}
+{% block sidebar_right %}
+    <h2>{{ character.name }}</h2>
+    <p>Job: {{ character.job }}</p>
+    <p>Strength: {{ character.stats.Strength }}</p>
+    <p>Dexterity: {{ character.stats.Dexterity }}</p>
+    <p>Defense: {{ character.stats.Defense }}</p>
+{% endblock %}
+{% block footerbar %}
+<div style="padding: 1rem;text-align: center;">
+    <nav>
+        <a href="/terms" style="margin: 0 1rem; text-decoration: none;">Terms</a>
+        <a href="/privacy" style="margin: 0 1rem; text-decoration: none;">Privacy</a>
+    </nav>
+</div>
+{% endblock %}

@@ -1,0 +1,106 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Jinja Template</title>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+{% extends "layouts/base.html" %}
+{% block headerbar %}
+<div style="font-size: 1.5rem; font-weight: bold;">Logo</div>
+    <nav style="flex-grow: 1; text-align: center;">
+        <a href="/home" style="margin: 0 1rem; text-decoration: none;">Home</a>
+    </nav>
+</div>
+{% endblock %}
+{% block sidebar_left %}
+<h2>Play Records</h2>
+
+<!-- Recent Events Section -->
+<div>
+    <h3>Recent Events</h3>
+    <div class="slider" id="recent-events">
+        <button class="slider-btn" onclick="moveSlide('recent-events', -1)">&lt;</button>
+        <ul class="slider-content"></ul>
+        <button class="slider-btn" onclick="moveSlide('recent-events', 1)">&gt;</button>
+    </div>
+</div>
+
+<!-- Completed Quests Section -->
+<div>
+    <h3>Completed Quests</h3>
+    <div class="slider" id="completed-quests">
+        <button class="slider-btn" onclick="moveSlide('completed-quests', -1)">&lt;</button>
+        <ul class="slider-content"></ul>
+        <button class="slider-btn" onclick="moveSlide('completed-quests', 1)">&gt;</button>
+    </div>
+</div>
+
+<!-- Current Quest Section -->
+<div>
+    <h3>Current Quest</h3>
+    <div id="current-quest"></div>
+</div>
+{% endblock %}
+{% block main %}
+<div style="text-align: center; padding: 2rem;">
+    <div style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">로고</div>
+    <h1>제목</h1>
+    <p style="font-size: 1.2rem; margin-top: 1rem;">
+        배경 이야기가 여기에 들어갑니다. 이 애플리케이션에 대한 간략한 설명 또는 소개입니다.
+    </p>
+    <div style="margin-top: 2rem;">
+        <form style="display: inline-block; text-align: center;">
+            <input type="text" placeholder="메시지를 입력하세요..." style="width: 80%; padding: 0.5rem; margin-bottom: 1rem;">
+            <br>
+            <button onclick="confirmCharacter()" type="submit" style="padding: 0.5rem;">전송</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block sidebar_right %}
+<h2>Character Configuration</h2>
+
+<!-- 플레이어 이름과 직업 입력 -->
+<div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" value="{{ character.name }}">
+</div>
+<div>
+    <label for="job">Job:</label>
+    <input type="text" id="job" value="{{ character.job }}">
+</div>
+
+<!-- 남은 포인트 표시 -->
+<h3>Allocate Your Stats</h3>
+<p>Remaining Points: <span id="points">{{ character.points }}</span></p>
+
+<div>
+    <p>Strength: <span id="strength">{{ character.stats.Strength }}</span></p>
+    <button onclick="updateStat('Strength', 1)">+1</button>
+    <button onclick="updateStat('Strength', -1)">-1</button>
+</div>
+<div>
+    <p>Dexterity: <span id="dexterity">{{ character.stats.Dexterity }}</span></p>
+    <button onclick="updateStat('Dexterity', 1)">+1</button>
+    <button onclick="updateStat('Dexterity', -1)">-1</button>
+</div>
+<div>
+    <p>Defense: <span id="defense">{{ character.stats.Defense }}</span></p>
+    <button onclick="updateStat('Defense', 1)">+1</button>
+    <button onclick="updateStat('Defense', -1)">-1</button>
+</div>
+
+<button onclick="resetStats()">Reset</button>
+{% endblock %}
+{% block footerbar %}
+<div style="padding: 1rem;text-align: center;">
+    <nav>
+        <a href="/terms" style="margin: 0 1rem; text-decoration: none;">Terms</a>
+        <a href="/privacy" style="margin: 0 1rem; text-decoration: none;">Privacy</a>
+    </nav>
+</div>
+{% endblock %}
