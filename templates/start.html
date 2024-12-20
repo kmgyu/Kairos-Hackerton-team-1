@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block sidebar_left %}
+<h2>Play Records</h2>
+<ul>
+    <li>Game 1: Victory</li>
+    <li>Game 2: Defeat</li>
+    <li>Game 3: Victory</li>
+</ul>
+{% endblock %}
+
+{% block main %}
+<div class="main-content">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Game Logo" class="logo">
+    <h2>Epic Adventure</h2>
+    <p>
+        Long ago, in a land of mystery and wonder, a hero rose to challenge the darkness. 
+        Your story begins now. Will you rise to the occasion?
+    </p>
+</div>
+{% endblock %}
+
+{% block sidebar_right %}
+<h2>Character Sheet</h2>
+<p>Name: Brave Hero</p>
+<p>Class: Warrior</p>
+<p>Level: 1</p>
+<p>Stats:</p>
+<ul>
+    <li>Strength: 10</li>
+    <li>Dexterity: 8</li>
+    <li>Intelligence: 6</li>
+</ul>
+{% endblock %}
