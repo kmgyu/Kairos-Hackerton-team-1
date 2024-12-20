@@ -6,48 +6,6 @@
     <title>Flask Jinja Template</title>
     <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <style>
-        body {
-            display: grid;
-            grid-template-areas:
-                "header header header"
-                "sidebar-left main sidebar-right"
-                "footer footer footer";
-            grid-template-columns: 200px 1fr 200px;
-            grid-template-rows: auto 1fr auto;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        header {
-            grid-area: header;
-            background: #333;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
-        footer {
-            grid-area: footer;
-            background: #333;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
-        .sidebar-left {
-            grid-area: sidebar-left;
-            background: #f4f4f4;
-            padding: 1rem;
-        }
-        .sidebar-right {
-            grid-area: sidebar-right;
-            background: #f4f4f4;
-            padding: 1rem;
-        }
-        main {
-            grid-area: main;
-            padding: 1rem;
-        }
-    </style>
 </head>
 <body>
     <header>

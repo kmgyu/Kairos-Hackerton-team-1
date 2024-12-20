@@ -26,6 +26,21 @@ def get_recent_events():
             "situation": "You met an old merchant.",
             "choices": "Buy supplies, Ignore",
             "result": "Bought supplies and received a treasure map."
+        },
+        {
+            "situation": "You met an old merchant.",
+            "choices": "Buy supplies, Ignore",
+            "result": "Bought supplies and received a treasure map."
+        },
+        {
+            "situation": "You met an old merchant.",
+            "choices": "Buy supplies, Ignore",
+            "result": "Bought supplies and received a treasure map."
+        },
+        {
+            "situation": "You met an old merchant.",
+            "choices": "Buy supplies, Ignore",
+            "result": "Bought supplies and received a treasure map."
         }
     ]
     return jsonify(play_records)
@@ -36,6 +51,18 @@ def get_completed_quests():
         {
             "title": "The Bandit Camp",
             "summary": "You cleared the bandit camp and rescued the villagers."
+        },
+        {
+            "title": "Mystic Cave",
+            "summary": "You explored the Mystic Cave and recovered the ancient artifact."
+        },
+        {
+            "title": "Mystic Cave",
+            "summary": "You explored the Mystic Cave and recovered the ancient artifact."
+        },
+        {
+            "title": "Mystic Cave",
+            "summary": "You explored the Mystic Cave and recovered the ancient artifact."
         },
         {
             "title": "Mystic Cave",
